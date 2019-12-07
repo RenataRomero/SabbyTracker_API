@@ -1,28 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+const Pulse = require('../models/User');
+const Temp = require('../models/User');
+const Sound = require('../models/User');
+const Position = require('../models/User');
 const bcrypt = require('bcryptjs');
 
 
-router.get('/login', (req, res) => {
-    res.send('Login!!');
-});
+router.post('/temp', (req, res) => {
+    const {variable, date, time} = req.body;
 
-router.get('/register', (req, res) => {
-    res.send('Register!!');
-});
-
-router.get('/', (req, res) => {
-    res.send('USERS MAIN');
-});
-
-//Register Handler
-router.post('/register', (req, res) => {
-    const {email, password} = req.body;
-
-    console.log('email: ', email);
-    console.log('password: ', password);
-    let errors = [];
+    console.log('variable: ', variable);
+    console.log('date: ', date);
+    console.log('time: ', time);
 
 
     User.findOne({ email: email})
@@ -31,15 +21,15 @@ router.post('/register', (req, res) => {
             if(user) {
                 console.log('User already exists!!');
             }else{
-                const newUser = new User({
-                    email, 
-                    password
+                const newTemp = new Tenp({
+                    variablre, 
+                    date, 
+                    time
                 });
 
-                console.log(newUser);
+                console.log(newTemp);
 
                 //Hash Password
-
                 bcrypt.genSalt(10, (err, salt) => {
                     bcrypt.hash(newUser.password, salt, (err, hash) => {
                         if(err) console.log(err);
@@ -48,7 +38,7 @@ router.post('/register', (req, res) => {
 
                         newUser.save()
                             .then(user => {
-                                res.sendStatus(200);
+                                res.send('user saved!!');
                             })
                             .catch(err => console.log(err));
 
